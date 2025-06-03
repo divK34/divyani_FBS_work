@@ -1,0 +1,622 @@
+1.
+mysql> SELECT book_name FROM BOOK
+    -> WHERE author_id = (SELECT author_id FROM author WHERE author_name = "Loni")
+    -> AND price < 600;
++--------------+
+| book_name    |
++--------------+
+| Intro to SQL |
++--------------+
+
+2.
+mysql> SELECT * FROM lib_issue
+    -> WHERE return_date IS NULL;
++--------------+-----------+---------+------------+-------------+
+| Lib_Issue_ID | Member_ID | Book_No | Issue_Date | Return_Date |
++--------------+-----------+---------+------------+-------------+
+|         7001 |       101 |     101 | 2024-11-01 | NULL        |
+|         7003 |       102 |     103 | 2024-12-05 | NULL        |
+|         7005 |       104 |     105 | 2024-12-15 | NULL        |
+|         7007 |       102 |     107 | 2024-12-20 | NULL        |
++--------------+-----------+---------+------------+-------------+
+
+3.
+mysql> UPDATE lib_issue SET return_date = "2006-12-31"
+    -> WHERE return_date IS NULL
+    -> AND lib_issue_id NOT IN (7005, 7006);
+
+4.
+mysql> SELECT * FROM lib_issue
+    -> WHERE (return_date - issue_date) > 30;
++--------------+-----------+---------+------------+-------------+
+| Lib_Issue_ID | Member_ID | Book_No | Issue_Date | Return_Date |
++--------------+-----------+---------+------------+-------------+
+|         7002 |       101 |     102 | 2024-10-01 | 2024-11-05  |
+|         7004 |       103 |     104 | 2024-07-10 | 2024-08-05  |
+|         7008 |       103 |     108 | 2024-11-10 | 2024-12-01  |
++--------------+-----------+---------+------------+-------------+
+
+5.
+mysql> SELECT * FROM book
+    -> WHERE price BETWEEN 500 AND 750
+    -> AND category = "database";
++---------+-------------------+-----------+----------+--------+
+| Book_No | Book_Name         | Author_ID | Category | Price  |
++---------+-------------------+-----------+----------+--------+
+|     101 | Intro to SQL      |         1 | Database | 550.00 |
+|     102 | Advanced Database |         1 | Database | 700.00 |
+|     107 | SQL Mastery       |         2 | Database | 620.00 |
++---------+-------------------+-----------+----------+--------+
+
+6.
+mysql> SELECT * FROM book
+    -> WHERE category IN ("Science", "Database", "Fiction", "Management");
++---------+--------------------+-----------+------------+--------+
+| Book_No | Book_Name          | Author_ID | Category   | Price  |
++---------+--------------------+-----------+------------+--------+
+|     101 | Intro to SQL       |         1 | Database   | 550.00 |
+|     102 | Advanced Database  |         1 | Database   | 700.00 |
+|     103 | RDBMS Concepts     |         2 | Database   | 800.00 |
+|     104 | Science Explained  |         3 | Science    | 650.00 |
+|     105 | Fiction World      |         4 | Fiction    | 400.00 |
+|     106 | Management 101     |         2 | Management | 750.00 |
+|     107 | SQL Mastery        |         2 | Database   | 620.00 |
+|     108 | History of Science |         3 | Science    | 300.00 |
++---------+--------------------+-----------+------------+--------+
+
+7.
+mysql> SELECT * FROM member
+    -> ORDER BY penalty_amount DESC;
++-----------+--------------+-------------+-------------------+----------------+---------------+----------------+
+| Member_ID | Member_Name  | Member_Type | Max_Books_Allowed | Membership_Fee | Acc_Open_Date | Penalty_Amount |
++-----------+--------------+-------------+-------------------+----------------+---------------+----------------+
+|       104 | Sneha Roy    | Monthly     |                 2 |         200.00 | 2007-03-15    |          70.00 |
+|       101 | Garima       | Lifetime    |                 5 |        1000.00 | 2006-01-05    |          50.00 |
+|       102 | Richa Sharma | Annual      |                 3 |         500.00 | 2006-12-10    |          20.00 |
+|       103 | Rahul Jain   | Lifetime    |                 4 |         900.00 | 2006-05-20    |           0.00 |
+|       105 | Aman Verma   | Lifetime    |                 1 |        1100.00 | 2006-02-18    |           0.00 |
++-----------+--------------+-------------+-------------------+----------------+---------------+----------------+
+
+8.
+mysql> UPDATE book
+    -> SET price = 300
+    -> WHERE book_no = 103;
+
+mysql> UPDATE book
+    -> SET category = "RDBMS"
+    -> WHERE book_no = 103;
+
+9.
+mysql> SELECT * FROM book
+    -> ORDER BY category ASC, price DESC;
++---------+--------------------+-----------+------------+--------+
+| Book_No | Book_Name          | Author_ID | Category   | Price  |
++---------+--------------------+-----------+------------+--------+
+|     102 | Advanced Database  |         1 | Database   | 700.00 |
+|     107 | SQL Mastery        |         2 | Database   | 620.00 |
+|     101 | Intro to SQL       |         1 | Database   | 550.00 |
+|     105 | Fiction World      |         4 | Fiction    | 400.00 |
+|     106 | Management 101     |         2 | Management | 750.00 |
+|     103 | RDBMS Concepts     |         2 | RDBMS      | 300.00 |
+|     104 | Science Explained  |         3 | Science    | 650.00 |
+|     108 | History of Science |         3 | Science    | 300.00 |
++---------+--------------------+-----------+------------+--------+
+
+10.
+mysql> SELECT * FROM book
+    ->  WHERE book_name LIKE "%SQL%";
++---------+--------------+-----------+----------+--------+
+| Book_No | Book_Name    | Author_ID | Category | Price  |
++---------+--------------+-----------+----------+--------+
+|     101 | Intro to SQL |         1 | Database | 550.00 |
+|     107 | SQL Mastery  |         2 | Database | 620.00 |
++---------+--------------+-----------+----------+--------+
+
+11.
+mysql> SELECT lib_issue_id, issue_date, return_date, DATEDIFF(return_date, issue_date) AS "no of days issued" FROM lib_issue;
++--------------+------------+-------------+-------------------+
+| lib_issue_id | issue_date | return_date | no of days issued |
++--------------+------------+-------------+-------------------+
+|         7001 | 2024-11-01 | 2006-12-31  |             -6515 |
+|         7002 | 2024-10-01 | 2024-11-05  |                35 |
+|         7003 | 2024-12-05 | 2006-12-31  |             -6549 |
+|         7004 | 2024-07-10 | 2024-08-05  |                26 |
+|         7005 | 2024-12-15 | NULL        |              NULL |
+|         7006 | 2024-12-01 | 2024-12-31  |                30 |
+|         7007 | 2024-12-20 | 2006-12-31  |             -6564 |
+|         7008 | 2024-11-10 | 2024-12-01  |                21 |
++--------------+------------+-------------+-------------------+
+
+12.
+mysql> SELECT * FROM member
+    -> ORDER BY acc_open_date;
++-----------+--------------+-------------+-------------------+----------------+---------------+----------------+
+| Member_ID | Member_Name  | Member_Type | Max_Books_Allowed | Membership_Fee | Acc_Open_Date | Penalty_Amount |
++-----------+--------------+-------------+-------------------+----------------+---------------+----------------+
+|       101 | Garima       | Lifetime    |                 5 |        1000.00 | 2006-01-05    |          50.00 |
+|       105 | Aman Verma   | Lifetime    |                 1 |        1100.00 | 2006-02-18    |           0.00 |
+|       103 | Rahul Jain   | Lifetime    |                 4 |         900.00 | 2006-05-20    |           0.00 |
+|       102 | Richa Sharma | Annual      |                 3 |         500.00 | 2006-12-10    |          20.00 |
+|       104 | Sneha Roy    | Monthly     |                 2 |         200.00 | 2007-03-15    |          70.00 |
++-----------+--------------+-------------+-------------------+----------------+---------------+----------------+
+
+13.
+mysql> SELECT COUNT(book_no) FROM lib_issue
+    -> WHERE member_id = 101;
++----------------+
+| COUNT(book_no) |
++----------------+
+|              2 |
++----------------+
+
+14.
+SELECT SUM(penalty_amount) AS total_penalty_due FROM member;
++-------------------+
+| total_penalty_due |
++-------------------+
+|            140.00 |
++-------------------+
+
+15.
+mysql> SELECT COUNT(member_id) AS total_no_of_members FROM member;
++---------------------+
+| total_no_of_members |
++---------------------+
+|                   5 |
++---------------------+
+
+16.
+mysql> SELECT COUNT(book_no) AS total_no_of_books FROM book;
++-------------------+
+| total_no_of_books |
++-------------------+
+|                 8 |
++-------------------+
+
+17.
+mysql> SELECT AVG(membership_fee) AS avg_membership_fee FROM member;
++--------------------+
+| avg_membership_fee |
++--------------------+
+|         740.000000 |
++--------------------+
+
+18.
+mysql> SELECT category, COUNT(book_no) AS book_count_by_category FROM book GROUP BY category;
++------------+------------------------+
+| category   | book_count_by_category |
++------------+------------------------+
+| Database   |                      3 |
+| RDBMS      |                      1 |
+| Science    |                      2 |
+| Fiction    |                      1 |
+| Management |                      1 |
++------------+------------------------+
+
+19.
+mysql> SELECT Book_No, COUNT(book_no) AS issue_count FROM lib_issue
+    -> GROUP BY book_no
+    -> ORDER BY issue_count DESC;
++---------+-------------+
+| Book_No | issue_count |
++---------+-------------+
+|     101 |           1 |
+|     102 |           1 |
+|     103 |           1 |
+|     104 |           1 |
+|     105 |           1 |
+|     106 |           1 |
+|     107 |           1 |
+|     108 |           1 |
++---------+-------------+
+
+20.
+mysql> SELECT MAX(penalty_amount), MIN(penalty_amount), AVG(penalty_amount), COUNT(penalty_amount) FROM member;
++---------------------+---------------------+---------------------+-----------------------+
+| MAX(penalty_amount) | MIN(penalty_amount) | AVG(penalty_amount) | COUNT(penalty_amount) |
++---------------------+---------------------+---------------------+-----------------------+
+|               70.00 |                0.00 |           28.000000 |                     5 |
++---------------------+---------------------+---------------------+-----------------------+
+
+21.
+mysql> SELECT member_id, COUNT(book_no) AS books_issued FROM lib_issue
+    -> GROUP BY member_id
+    -> HAVING COUNT(book_no) >= 2
+    -> ORDER BY books_issued DESC;
++-----------+--------------+
+| member_id | books_issued |
++-----------+--------------+
+|       101 |            2 |
+|       102 |            2 |
+|       103 |            2 |
++-----------+--------------+
+
+22.
+mysql> SELECT member_id, book_no, COUNT(book_no) AS book_issued FROM lib_issue
+    -> GROUP BY member_id, book_no
+    -> ORDER BY book_issued DESC;
++-----------+---------+-------------+
+| member_id | book_no | book_issued |
++-----------+---------+-------------+
+|       101 |     101 |           1 |
+|       101 |     102 |           1 |
+|       102 |     103 |           1 |
+|       103 |     104 |           1 |
+|       104 |     105 |           1 |
+|       105 |     106 |           1 |
+|       102 |     107 |           1 |
+|       103 |     108 |           1 |
++-----------+---------+-------------+
+
+23.
+mysql> SELECT member_id, MONTHNAME(issue_date) AS month_issued, COUNT(book_no) AS book_issued
+    -> FROM lib_issue
+    -> GROUP BY member_id, month_issued
+    -> ORDER BY book_issued;
++-----------+--------------+-------------+
+| member_id | month_issued | book_issued |
++-----------+--------------+-------------+
+|       101 | November     |           1 |
+|       101 | October      |           1 |
+|       103 | July         |           1 |
+|       104 | December     |           1 |
+|       105 | December     |           1 |
+|       103 | November     |           1 |
+|       102 | December     |           2 |
++-----------+--------------+-------------+
+
+24.
+mysql> SELECT book_no FROM lib_issue
+    -> WHERE issue_date IS NULL;
+Empty set (0.00 sec)
+
+25.
+mysql> SELECT member_id FROM member WHERE member_id IN (SELECT member_id FROM lib_issue);
++-----------+
+| member_id |
++-----------+
+|       101 |
+|       102 |
+|       103 |
+|       104 |
+|       105 |
++-----------+
+
+26.
+mysql> SELECT Member_ID, COUNT(*) AS Issue_Count
+    -> FROM lib_issue
+    -> GROUP BY Member_ID
+    -> ORDER BY Issue_Count DESC
+    -> LIMIT 1;
++-----------+-------------+
+| Member_ID | Issue_Count |
++-----------+-------------+
+|       102 |           3 |
++-----------+-------------+
+
+mysql> SELECT Member_ID, COUNT(*) AS Issue_Count
+    -> FROM lib_issue
+    -> GROUP BY Member_ID
+    -> ORDER BY Issue_Count ASC
+    -> LIMIT 1;
++-----------+-------------+
+| Member_ID | Issue_Count |
++-----------+-------------+
+|       104 |           1 |
++-----------+-------------+
+
+27.
+mysql> SELECT * FROM lib_issue
+    -> WHERE MONTHNAME(Issue_Date) IN ('December', 'July');
++--------------+-----------+---------+------------+-------------+
+| Lib_Issue_ID | Member_ID | Book_No | Issue_Date | Return_Date |
++--------------+-----------+---------+------------+-------------+
+|         7003 |       102 |     103 | 2024-12-05 | 2006-12-31  |
+|         7004 |       103 |     104 | 2024-07-10 | 2024-08-05  |
+|         7005 |       104 |     105 | 2024-12-15 | NULL        |
+|         7006 |       105 |     106 | 2024-12-01 | 2024-12-31  |
+|         7007 |       102 |     107 | 2024-12-20 | 2006-12-31  |
++--------------+-----------+---------+------------+-------------+
+
+28.
+mysql> SELECT Book_No, (SELECT Book_Name FROM book WHERE book.Book_No = lib_issue.Book_No) AS Book_Name, Issue_Date FROM lib_issue  
+    -> WHERE MONTHNAME(Issue_Date) = 'December'
+    -> AND Book_No IN (SELECT Book_No FROM book WHERE Category = 'Database');
++---------+-------------+------------+
+| Book_No | Book_Name   | Issue_Date |
++---------+-------------+------------+
+|     107 | SQL Mastery | 2024-12-20 |
++---------+-------------+------------+
+
+29.
+mysql> SELECT Member_ID, Member_Name, Max_Books_Allowed
+    -> FROM member
+    -> ORDER BY Max_Books_Allowed DESC;
++-----------+--------------+-------------------+
+| Member_ID | Member_Name  | Max_Books_Allowed |
++-----------+--------------+-------------------+
+|       101 | Garima       |                 5 |
+|       103 | Rahul Jain   |                 4 |
+|       102 | Richa Sharma |                 3 |
+|       104 | Sneha Roy    |                 2 |
+|       105 | Aman Verma   |                 1 |
++-----------+--------------+-------------------+
+
+30.
+mysql> SELECT Book_No, (SELECT Book_Name FROM book WHERE book.Book_No = lib_issue.Book_No) AS Book_Name, Issue_Date, Return_Date
+    -> FROM lib_issue
+    -> WHERE Member_ID = (SELECT Member_ID FROM member WHERE Member_Name = 'Richa Sharma');
++---------+----------------+------------+-------------+
+| Book_No | Book_Name      | Issue_Date | Return_Date |
++---------+----------------+------------+-------------+
+|     103 | RDBMS Concepts | 2024-12-05 | 2006-12-31  |
+|     107 | SQL Mastery    | 2024-12-20 | 2006-12-31  |
+|     107 | SQL Mastery    | 2024-11-01 | NULL        |
++---------+----------------+------------+-------------+
+
+31.
+mysql> SELECT * FROM member
+    -> WHERE Member_ID IN (SELECT Member_ID FROM lib_issue
+    -> WHERE Book_No IN (SELECT Book_No FROM book WHERE Category = 'Database'));
++-----------+--------------+-------------+-------------------+----------------+---------------+----------------+
+| Member_ID | Member_Name  | Member_Type | Max_Books_Allowed | Membership_Fee | Acc_Open_Date | Penalty_Amount |
++-----------+--------------+-------------+-------------------+----------------+---------------+----------------+
+|       101 | Garima       | Lifetime    |                 5 |        1000.00 | 2006-01-05    |          50.00 |
+|       102 | Richa Sharma | Annual      |                 3 |         500.00 | 2006-12-10    |          20.00 |
++-----------+--------------+-------------+-------------------+----------------+---------------+----------------+
+
+32.
+mysql> SELECT * FROM book
+    -> WHERE Price IN (SELECT MAX(Price) FROM book GROUP BY Category);
++---------+--------------------+-----------+------------+--------+
+| Book_No | Book_Name          | Author_ID | Category   | Price  |
++---------+--------------------+-----------+------------+--------+
+|     102 | Advanced Database  |         1 | Database   | 700.00 |
+|     103 | RDBMS Concepts     |         2 | RDBMS      | 300.00 |
+|     104 | Science Explained  |         3 | Science    | 650.00 |
+|     105 | Fiction World      |         4 | Fiction    | 400.00 |
+|     106 | Management 101     |         2 | Management | 750.00 |
+|     108 | History of Science |         3 | Science    | 300.00 |
++---------+--------------------+-----------+------------+--------+
+
+33.
+mysql> SELECT * FROM lib_issue
+    -> WHERE Member_ID IN (SELECT Member_ID FROM member)
+    -> AND (Issue_Date < (SELECT Acc_Open_Date FROM member WHERE member.Member_ID = lib_issue.Member_ID) OR (Return_Date IS NOT NULL AND > (
+    -> SELECT Return_Date FROM lib_issue li2 WHERE li2.Lib_Issue_ID = lib_issue.Lib_Issue_ID)));
++--------------+-----------+---------+------------+-------------+
+| Lib_Issue_ID | Member_ID | Book_No | Issue_Date | Return_Date |
++--------------+-----------+---------+------------+-------------+
+|         7001 |       101 |     101 | 2024-11-01 | 2006-12-31  |
+|         7003 |       102 |     103 | 2024-12-05 | 2006-12-31  |
+|         7007 |       102 |     107 | 2024-12-20 | 2006-12-31  |
++--------------+-----------+---------+------------+-------------+
+
+34. 
+SELECT Member_ID, Member_Name
+FROM member
+WHERE Member_ID NOT IN (
+    SELECT Member_ID
+    FROM lib_issue
+    WHERE Member_ID IS NOT NULL
+);
+
+35.
+SELECT Member_ID, Member_Name
+FROM member
+WHERE Member_ID IN (
+    SELECT Member_ID
+    FROM lib_issue
+    WHERE Book_No IN (
+        SELECT Book_No
+        FROM lib_issue
+        WHERE Member_ID = (
+            SELECT Member_ID
+            FROM member
+            WHERE Member_Name = 'Garima'
+        )
+    )
+)
+AND Member_ID != (
+    SELECT Member_ID
+    FROM member
+    WHERE Member_Name = 'Garima'
+);
+
+36.
+SELECT Book_Name, Price
+FROM book
+WHERE Book_No IN (
+    SELECT Book_No
+    FROM lib_issue
+    WHERE Return_Date IS NULL
+       OR DATEDIFF(Return_Date, Issue_Date) > 30
+);
+
+37.
+SELECT Author_ID, Book_Name
+FROM book
+WHERE Author_ID IN (
+    SELECT Author_ID
+    FROM book
+    GROUP BY Author_ID
+    HAVING COUNT(*) > 1
+);
+
+38.
+SELECT Member_ID, Member_Name
+FROM member
+WHERE Member_ID IN (
+    SELECT Member_ID
+    FROM lib_issue
+    GROUP BY Member_ID
+    HAVING COUNT(*) = (
+        SELECT MAX(book_count)
+        FROM (
+            SELECT COUNT(*) AS book_count
+            FROM lib_issue
+            GROUP BY Member_ID
+        ) AS counts
+    )
+);
+SELECT Member_ID, Member_Name
+FROM member
+WHERE Member_ID IN (
+    SELECT Member_ID
+    FROM lib_issue
+    GROUP BY Member_ID
+    HAVING COUNT(*) = (
+        SELECT MIN(book_count)
+        FROM (
+            SELECT COUNT(*) AS book_count
+            FROM lib_issue
+            GROUP BY Member_ID
+        ) AS counts
+    )
+);
+
+39.
+SELECT *
+FROM book
+ORDER BY Price DESC
+LIMIT 3;
+
+40.
+SELECT SUM(Price) AS Total_Cost
+FROM book
+WHERE Book_No IN (
+    SELECT Book_No
+    FROM lib_issue
+    WHERE Return_Date IS NULL
+);
+
+41.
+SELECT *
+FROM book
+WHERE Book_No = (
+    SELECT Book_No
+    FROM lib_issue
+    GROUP BY Book_No
+    ORDER BY COUNT(*) DESC
+    LIMIT 1
+);
+
+42.
+SELECT COUNT(*) AS Total_Issued
+FROM lib_issue
+WHERE Member_ID IN (
+    SELECT Member_ID
+    FROM member
+    WHERE Member_Type = 'Lifetime'
+);
+
+43.
+SELECT Member_Type, COUNT(*) AS Total_Members
+FROM member
+GROUP BY Member_Type;
+
+44.
+SELECT *
+FROM member
+ORDER BY Acc_Open_Date
+LIMIT 5;
+
+45.
+SELECT Member_ID, Member_Name, Member_Type
+FROM member
+WHERE Member_ID IN (
+    SELECT Member_ID
+    FROM lib_issue
+    WHERE Issue_Date BETWEEN '2024-12-01' AND '2024-12-31'
+);
+
+46.
+SELECT Member_ID, Member_Name
+FROM member
+WHERE Member_ID IN (
+    SELECT Member_ID
+    FROM lib_issue
+    WHERE Return_Date IS NULL
+);
+
+47.
+SELECT Member_ID, Member_Name
+FROM member
+WHERE Acc_Open_Date = (
+    SELECT Acc_Open_Date
+    FROM member
+    WHERE Member_Name = 'Garima'
+);
+
+48.
+SELECT Member_ID, Member_Name
+FROM member
+WHERE Member_ID IN (
+    SELECT Member_ID
+    FROM lib_issue
+    WHERE MONTH(Issue_Date) = 12
+      AND Book_No IN (
+          SELECT Book_No
+          FROM book
+          WHERE Author_ID = (
+              SELECT Author_ID
+              FROM author
+              WHERE Author_Name = 'Loni'
+          )
+      )
+);
+
+49.
+SELECT Author_Name
+FROM author
+WHERE Author_ID IN (
+    SELECT Author_ID
+    FROM book
+    WHERE Book_No IN (
+        SELECT Book_No
+        FROM lib_issue
+        WHERE Member_ID IN (
+            SELECT Member_ID
+            FROM member
+            WHERE Member_Type = 'Lifetime'
+        )
+        GROUP BY Book_No
+        ORDER BY COUNT(*) ASC
+        LIMIT 1
+    )
+);
+
+50.
+SELECT Member_Name
+FROM member
+WHERE Member_ID IN (
+    SELECT Member_ID
+    FROM lib_issue
+    WHERE Book_No IN (
+        SELECT Book_No
+        FROM book
+        WHERE Price > 300
+          AND Author_ID = (
+              SELECT Author_ID
+              FROM author
+              WHERE Author_Name = 'Scott Urman'
+          )
+    )
+);
+
+51.
+SELECT Member_ID, Member_Name
+FROM member
+WHERE Member_Type = 'Lifetime'
+  AND Acc_Open_Date BETWEEN '2006-01-01' AND '2006-12-31'
+  AND Member_ID IN (
+      SELECT Member_ID
+      FROM lib_issue
+      GROUP BY Member_ID
+      HAVING COUNT(*) = 1
+  );
+
+52.
+UPDATE member
+SET Penalty_Amount = 100
+WHERE Member_Name = 'Garima';

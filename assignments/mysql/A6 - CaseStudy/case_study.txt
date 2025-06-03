@@ -1,0 +1,203 @@
+
+mysql> desc patient;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| patient_id   | int         | NO   | PRI | NULL    |       |
+| patient_name | varchar(50) | YES  |     | NULL    |       |
+| gender       | varchar(10) | YES  |     | NULL    |       |
+| dob          | date        | YES  |     | NULL    |       |
+| phone_no     | bigint      | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from patient;
++------------+---------------+--------+------------+------------+
+| patient_id | patient_name  | gender | dob        | phone_no   |
++------------+---------------+--------+------------+------------+
+|          1 | Aarav Mehta   | Male   | 1990-05-15 | 9876543210 |
+|          2 | Ishita Sharma | Female | 1988-11-23 | 9123456789 |
+|          3 | Raj Verma     | Male   | 1975-03-10 | 9988776655 |
+|          4 | Sneha Reddy   | Female | 1995-07-19 | 9012345678 |
+|          5 | Karan Patel   | Male   | 1982-12-30 | 8765432109 |
+|          6 | Diya Nair     | Female | 1993-09-25 | 9112233445 |
+|          7 | Arjun Singh   | Male   | 1980-01-05 | 9090909090 |
+|          8 | Priya Desai   | Female | 1991-04-08 | 9876512345 |
+|          9 | Rohan Joshi   | Male   | 1985-06-12 | 9321654987 |
+|         10 | Neha Kapoor   | Female | 1997-02-20 | 9123459876 |
++------------+---------------+--------+------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> desc doctor;
++----------------+--------------+------+-----+---------+-------+
+| Field          | Type         | Null | Key | Default | Extra |
++----------------+--------------+------+-----+---------+-------+
+| doc_id         | int          | NO   | PRI | NULL    |       |
+| doc_name       | varchar(50)  | YES  |     | NULL    |       |
+| phone_no       | bigint       | YES  |     | NULL    |       |
+| specialization | varchar(100) | YES  |     | NULL    |       |
++----------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from doctor;
++--------+-------------------+------------+-------------------+
+| doc_id | doc_name          | phone_no   | specialization    |
++--------+-------------------+------------+-------------------+
+|      1 | Dr. Ravi Kumar    | 9988771122 | Cardiologist      |
+|      2 | Dr. Anjali Menon  | 9876544433 | Dermatologist     |
+|      3 | Dr. Suresh Gupta  | 9345612345 | Orthopedic        |
+|      4 | Dr. Meena Iyer    | 9765432198 | Pediatrician      |
+|      5 | Dr. Ajay Singh    | 9988776655 | Neurologist       |
+|      6 | Dr. Lakshmi Rao   | 9456123789 | ENT Specialist    |
+|      7 | Dr. Vishal Thakur | 9654321789 | General Physician |
+|      8 | Dr. Reema Das     | 9345678901 | Gynecologist      |
+|      9 | Dr. Nikhil Shah   | 9988665544 | Pulmonologist     |
+|     10 | Dr. Swati Pandey  | 9123456701 | Psychiatrist      |
++--------+-------------------+------------+-------------------+
+10 rows in set (0.00 sec)
+
+mysql> desc procedures;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| pro_id     | int          | NO   | PRI | NULL    |       |
+| patient_id | int          | YES  | MUL | NULL    |       |
+| type       | varchar(100) | YES  |     | NULL    |       |
+| date       | date         | YES  |     | NULL    |       |
+| doc_id     | int          | YES  | MUL | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from procedures;
++--------+------------+--------------------------+------------+--------+
+| pro_id | patient_id | type                     | date       | doc_id |
++--------+------------+--------------------------+------------+--------+
+|      1 |          1 | ECG                      | 2023-01-10 |      1 |
+|      2 |          2 | Skin Biopsy              | 2023-02-15 |      2 |
+|      3 |          3 | Knee Surgery             | 2022-12-05 |      3 |
+|      4 |          4 | Tonsil Removal           | 2023-03-12 |      6 |
+|      5 |          5 | Brain MRI                | 2023-04-18 |      5 |
+|      6 |          6 | Ear Cleaning             | 2023-05-22 |      6 |
+|      7 |          7 | Annual Checkup           | 2023-06-10 |      7 |
+|      8 |          8 | Pelvic Ultrasound        | 2023-07-08 |      8 |
+|      9 |          9 | Chest X-ray              | 2023-08-02 |      9 |
+|     10 |         10 | Mental Health Evaluation | 2023-09-25 |     10 |
++--------+------------+--------------------------+------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> desc test_and_results;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| test_id    | int          | NO   | PRI | NULL    |       |
+| patient_id | int          | YES  | MUL | NULL    |       |
+| test_type  | varchar(100) | YES  |     | NULL    |       |
+| test_date  | date         | YES  |     | NULL    |       |
+| result     | varchar(255) | YES  |     | NULL    |       |
+| doc_id     | int          | YES  | MUL | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from test_and_results;
++---------+------------+----------------+------------+------------------+--------+
+| test_id | patient_id | test_type      | test_date  | result           | doc_id |
++---------+------------+----------------+------------+------------------+--------+
+|       1 |          1 | Blood Pressure | 2023-01-10 | 140/90           |      1 |
+|       2 |          2 | Allergy Test   | 2023-02-16 | Positive         |      2 |
+|       3 |          3 | HbA1c          | 2022-12-10 | 7.5%             |      3 |
+|       4 |          4 | Throat Swab    | 2023-03-13 | Bacterial        |      4 |
+|       5 |          5 | Lipid Profile  | 2023-04-19 | High LDL         |      5 |
+|       6 |          6 | Joint X-ray    | 2023-05-23 | Normal           |      6 |
+|       7 |          7 | CBC            | 2023-06-11 | Within range     |      7 |
+|       8 |          8 | TSH            | 2023-07-09 | Elevated         |      8 |
+|       9 |          9 | Spirometry     | 2023-08-03 | Mild obstruction |      9 |
+|      10 |         10 | Psych Eval     | 2023-09-26 | Mild anxiety     |     10 |
++---------+------------+----------------+------------+------------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> desc prescriptions;
++--------------------+--------------+------+-----+---------+-------+
+| Field              | Type         | Null | Key | Default | Extra |
++--------------------+--------------+------+-----+---------+-------+
+| pre_id             | int          | NO   | PRI | NULL    |       |
+| patient_id         | int          | YES  | MUL | NULL    |       |
+| medication         | varchar(255) | YES  |     | NULL    |       |
+| dosage             | varchar(50)  | YES  |     | NULL    |       |
+| dispensing_details | varchar(255) | YES  |     | NULL    |       |
+| doc_id             | int          | YES  | MUL | NULL    |       |
++--------------------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from prescriptions;
++--------+------------+---------------+---------+--------------------+--------+
+| pre_id | patient_id | medication    | dosage  | dispensing_details | doc_id |
++--------+------------+---------------+---------+--------------------+--------+
+|      1 |          1 | Amlodipine    | 5mg     | Once daily         |      1 |
+|      2 |          2 | Loratadine    | 10mg    | At night           |      2 |
+|      3 |          3 | Glibenclamide | 5mg     | Twice daily        |      3 |
+|      4 |          4 | Azithromycin  | 500mg   | Three days         |      4 |
+|      5 |          5 | Simvastatin   | 20mg    | Bedtime            |      5 |
+|      6 |          6 | Naproxen      | 250mg   | After meals        |      6 |
+|      7 |          7 | Calpol        | 500mg   | As needed          |      7 |
+|      8 |          8 | Eltroxin      | 100mcg  | Empty stomach      |      8 |
+|      9 |          9 | Asthalin      | Inhaler | Before activity    |      9 |
+|     10 |         10 | Escitalopram  | 10mg    | Daily morning      |     10 |
++--------+------------+---------------+---------+--------------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> desc medical_history;
++--------------------+--------------+------+-----+---------+-------+
+| Field              | Type         | Null | Key | Default | Extra |
++--------------------+--------------+------+-----+---------+-------+
+| medh_id            | int          | NO   | PRI | NULL    |       |
+| patient_id         | int          | YES  | MUL | NULL    |       |
+| medication         | varchar(255) | YES  |     | NULL    |       |
+| allergies          | varchar(255) | YES  |     | NULL    |       |
+| diagnosis          | varchar(255) | YES  |     | NULL    |       |
+| previous_treatment | varchar(255) | YES  |     | NULL    |       |
++--------------------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from medical_history;
++---------+------------+---------------+------------+-------------------+--------------------+
+| medh_id | patient_id | medication    | allergies  | diagnosis         | previous_treatment |
++---------+------------+---------------+------------+-------------------+--------------------+
+|       1 |          1 | Aspirin       | None       | Hypertension      | Lifestyle changes  |
+|       2 |          2 | Cetirizine    | Dust       | Allergic Rhinitis | Antihistamines     |
+|       3 |          3 | Metformin     | None       | Diabetes          | Insulin therapy    |
+|       4 |          4 | Amoxicillin   | Penicillin | Throat infection  | Home remedies      |
+|       5 |          5 | Atorvastatin  | None       | High cholesterol  | Diet control       |
+|       6 |          6 | Ibuprofen     | NSAIDs     | Joint pain        | Physiotherapy      |
+|       7 |          7 | Paracetamol   | None       | Fever             | Hydration          |
+|       8 |          8 | Levothyroxine | None       | Thyroid disorder  | Tablet daily       |
+|       9 |          9 | Salbutamol    | Pollen     | Asthma            | Inhaler use        |
+|      10 |         10 | Sertraline    | None       | Anxiety           | Talk therapy       |
++---------+------------+---------------+------------+-------------------+--------------------+
+
+mysql> desc encounter_records;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| en_id      | int         | NO   | PRI | NULL    |       |
+| patient_id | int         | YES  | MUL | NULL    |       |
+| doc_id     | int         | YES  | MUL | NULL    |       |
+| type       | varchar(50) | YES  |     | NULL    |       |
+| date       | date        | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from encounter_records;
++-------+------------+--------+---------------+------------+
+| en_id | patient_id | doc_id | type          | date       |
++-------+------------+--------+---------------+------------+
+|     1 |          1 |      1 | Outpatient    | 2023-01-10 |
+|     2 |          2 |      2 | Outpatient    | 2023-02-15 |
+|     3 |          3 |      3 | Emergency     | 2022-12-05 |
+|     4 |          4 |      4 | Outpatient    | 2023-03-12 |
+|     5 |          5 |      5 | Consultation  | 2023-04-18 |
+|     6 |          6 |      6 | Outpatient    | 2023-05-22 |
+|     7 |          7 |      7 | General Check | 2023-06-10 |
+|     8 |          8 |      8 | Outpatient    | 2023-07-08 |
+|     9 |          9 |      9 | Emergency     | 2023-08-02 |
+|    10 |         10 |     10 | Psych Consult | 2023-09-25 |
++-------+------------+--------+---------------+------------+

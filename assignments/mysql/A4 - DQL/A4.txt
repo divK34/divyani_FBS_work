@@ -1,0 +1,288 @@
+1.
+mysql> SELECT first_name AS "First Name",last_name AS "Last Name" FROM employee;
++------------+-----------+
+| First Name | Last Name |
++------------+-----------+
+| Steven     | King      |
+| Neena      | Kochhar   |
+| Lex        | De Haan   |
+| Alexander  | Hunold    |
+| Bruce      | Ernst     |
+| David      | Austin    |
+| Valli      | Pataballa |
+| Diana      | Lorentz   |
+| Nancy      | Greenberg |
+| Daniel     | Faviet    |
+| John       | Chen      |
+| Karen      | Smith     |
+| Michael    | Brown     |
++------------+-----------+
+
+2.
+mysql> SELECT DISTINCT dept_id FROM employee;
++---------+
+| dept_id |
++---------+
+|      10 |
+|      30 |
+|      60 |
+|      80 |
++---------+
+
+3.
+mysql> SELECT * FROM employee
+    -> ORDER BY first_name DESC;
++--------+------------+-----------+---------------+--------------+------------+---------+----------+----------------+------------+---------+
+| emp_id | first_name | last_name | email         | phone_no     | hire_date  | job_id  | salary   | commission_pct | manager_id | dept_id |
++--------+------------+-----------+---------------+--------------+------------+---------+----------+----------------+------------+---------+
+|    106 | Valli      | Pataballa | not available | 590.423.4560 | 1987-06-23 | IT_PROG |  5280.00 |           0.10 |        103 |      60 |
+|    100 | Steven     | King      | not available | 515.123.4567 | 1987-06-17 | AD_PRES | 26400.00 |           0.10 |        200 |      10 |
+|    101 | Neena      | Kochhar   | not available | 515.123.4568 | 1987-06-18 | AD_VP   | 18700.00 |           0.10 |        200 |      10 |
+|    108 | Nancy      | Greenberg | not available | 515.124.4569 | 1987-06-25 | SA_MAN  | 13200.00 |           0.10 |        145 |      80 |
+|    112 | Michael    | Brown     | not available | 515.124.7892 | 1987-06-29 | SA_MAN  | 10450.00 |           0.10 |        145 |      80 |
+|    102 | Lex        | De Haan   | not available | 515.123.4569 | 1987-06-19 | AD_VP   | 18700.00 |           0.10 |        200 |      10 |
+|    111 | Karen      | Smith     | not available | 590.423.7891 | 1987-06-28 | IT_PROG |  6710.00 |           0.10 |        103 |      60 |
+|    110 | John       | Chen      | not available | 515.123.7890 | 1987-06-27 | SA_MAN  |  9020.00 |           0.10 |        145 |      80 |
+|    107 | Diana      | Lorentz   | not available | 590.423.5567 | 1987-06-24 | IT_PROG |  4620.00 |           0.10 |        114 |      30 |
+|    105 | David      | Austin    | not available | 590.423.4569 | 1987-06-22 | IT_PROG |  5280.00 |           0.10 |        103 |      60 |
+|    109 | Daniel     | Faviet    | not available | 515.124.4169 | 1987-06-26 | SA_MAN  |  9900.00 |           0.10 |        145 |      80 |
+|    104 | Bruce      | Ernst     | not available | 590.423.4568 | 1987-06-21 | IT_PROG |  6600.00 |           0.10 |        103 |      60 |
+|    103 | Alexander  | Hunold    | not available | 590.423.4567 | 1987-06-20 | IT_PROG |  9900.00 |           0.10 |        103 |      60 |
++--------+------------+-----------+---------------+--------------+------------+---------+----------+----------------+------------+---------+
+
+4.
+mysql> SELECT first_name, last_name, salary, salary * 0.15 AS PF FROM employee;
++------------+-----------+----------+---------+
+| first_name | last_name | salary   | PF      |
++------------+-----------+----------+---------+
+| Steven     | King      | 26400.00 | 3960.00 |
+| Neena      | Kochhar   | 18700.00 | 2805.00 |
+| Lex        | De Haan   | 18700.00 | 2805.00 |
+| Alexander  | Hunold    |  9900.00 | 1485.00 |
+| Bruce      | Ernst     |  6600.00 |  990.00 |
+| David      | Austin    |  5280.00 |  792.00 |
+| Valli      | Pataballa |  5280.00 |  792.00 |
+| Diana      | Lorentz   |  4620.00 |  693.00 |
+| Nancy      | Greenberg | 13200.00 | 1980.00 |
+| Daniel     | Faviet    |  9900.00 | 1485.00 |
+| John       | Chen      |  9020.00 | 1353.00 |
+| Karen      | Smith     |  6710.00 | 1006.50 |
+| Michael    | Brown     | 10450.00 | 1567.50 |
++------------+-----------+----------+---------+
+
+5.
+mysql> SELECT emp_id, first_name, last_name, salary FROM employee
+    -> ORDER BY salary;
++--------+------------+-----------+----------+
+| emp_id | first_name | last_name | salary   |
++--------+------------+-----------+----------+
+|    107 | Diana      | Lorentz   |  4620.00 |
+|    105 | David      | Austin    |  5280.00 |
+|    106 | Valli      | Pataballa |  5280.00 |
+|    104 | Bruce      | Ernst     |  6600.00 |
+|    111 | Karen      | Smith     |  6710.00 |
+|    110 | John       | Chen      |  9020.00 |
+|    103 | Alexander  | Hunold    |  9900.00 |
+|    109 | Daniel     | Faviet    |  9900.00 |
+|    112 | Michael    | Brown     | 10450.00 |
+|    108 | Nancy      | Greenberg | 13200.00 |
+|    101 | Neena      | Kochhar   | 18700.00 |
+|    102 | Lex        | De Haan   | 18700.00 |
+|    100 | Steven     | King      | 26400.00 |
++--------+------------+-----------+----------+
+
+6.
+mysql> SELECT SUM(salary) FROM employee;
++-------------+
+| SUM(salary) |
++-------------+
+|   144760.00 |
++-------------+
+
+7.
+mysql> SELECT MAX(salary) AS "maximum salary", MIN(salary) AS "minimum salary" FROM employee;
++----------------+----------------+
+| maximum salary | minimum salary |
++----------------+----------------+
+|       26400.00 |        4620.00 |
++----------------+----------------+
+
+8.
+mysql> SELECT AVG(salary), COUNT(emp_id) AS "no of employees" FROM employee;
++--------------+-----------------+
+| AVG(salary)  | no of employees |
++--------------+-----------------+
+| 11135.384615 |              13 |
++--------------+-----------------+
+
+9.
+mysql> SELECT COUNT(hire_date) FROM employee;
++------------------+
+| COUNT(hire_date) |
++------------------+
+|               13 |
++------------------+
+
+10.
+mysql> SELECT COUNT(DISTINCT job_id) AS "no of jobs" FROM employee;
++------------+
+| no of jobs |
++------------+
+|          4 |
++------------+
+
+11.
+mysql> SELECT * FROM employee
+    -> ORDER BY emp_id
+    -> LIMIT 10;
++--------+------------+-----------+---------------+--------------+------------+---------+----------+----------------+------------+---------+
+| emp_id | first_name | last_name | email         | phone_no     | hire_date  | job_id  | salary   | commission_pct | manager_id | dept_id |
++--------+------------+-----------+---------------+--------------+------------+---------+----------+----------------+------------+---------+
+|    100 | Steven     | King      | not available | 515.123.4567 | 1987-06-17 | AD_PRES | 26400.00 |           0.10 |        200 |      10 |
+|    101 | Neena      | Kochhar   | not available | 515.123.4568 | 1987-06-18 | AD_VP   | 18700.00 |           0.10 |        200 |      10 |
+|    102 | Lex        | De Haan   | not available | 515.123.4569 | 1987-06-19 | AD_VP   | 18700.00 |           0.10 |        200 |      10 |
+|    103 | Alexander  | Hunold    | not available | 590.423.4567 | 1987-06-20 | IT_PROG |  9900.00 |           0.10 |        103 |      60 |
+|    104 | Bruce      | Ernst     | not available | 590.423.4568 | 1987-06-21 | IT_PROG |  6600.00 |           0.10 |        103 |      60 |
+|    105 | David      | Austin    | not available | 590.423.4569 | 1987-06-22 | IT_PROG |  5280.00 |           0.10 |        103 |      60 |
+|    106 | Valli      | Pataballa | not available | 590.423.4560 | 1987-06-23 | IT_PROG |  5280.00 |           0.10 |        103 |      60 |
+|    107 | Diana      | Lorentz   | not available | 590.423.5567 | 1987-06-24 | IT_PROG |  4620.00 |           0.10 |        114 |      30 |
+|    108 | Nancy      | Greenberg | not available | 515.124.4569 | 1987-06-25 | SA_MAN  | 13200.00 |           0.10 |        145 |      80 |
+|    109 | Daniel     | Faviet    | not available | 515.124.4169 | 1987-06-26 | SA_MAN  |  9900.00 |           0.10 |        145 |      80 |
++--------+------------+-----------+---------------+--------------+------------+---------+----------+----------------+------------+---------+
+
+12.
+mysql> SELECT first_name, last_name, salary FROM employee
+    -> WHERE salary NOT BETWEEN 10000 AND 15000;
++------------+-----------+----------+
+| first_name | last_name | salary   |
++------------+-----------+----------+
+| Steven     | King      | 26400.00 |
+| Neena      | Kochhar   | 18700.00 |
+| Lex        | De Haan   | 18700.00 |
+| Alexander  | Hunold    |  9900.00 |
+| Bruce      | Ernst     |  6600.00 |
+| David      | Austin    |  5280.00 |
+| Valli      | Pataballa |  5280.00 |
+| Diana      | Lorentz   |  4620.00 |
+| Daniel     | Faviet    |  9900.00 |
+| John       | Chen      |  9020.00 |
+| Karen      | Smith     |  6710.00 |
++------------+-----------+----------+
+
+13.
+mysql> SELECT first_name, last_name, dept_id FROM employee
+    -> WHERE dept_id BETWEEN 30 AND 100;
++------------+-----------+---------+
+| first_name | last_name | dept_id |
++------------+-----------+---------+
+| Alexander  | Hunold    |      60 |
+| Bruce      | Ernst     |      60 |
+| David      | Austin    |      60 |
+| Valli      | Pataballa |      60 |
+| Diana      | Lorentz   |      30 |
+| Nancy      | Greenberg |      80 |
+| Daniel     | Faviet    |      80 |
+| John       | Chen      |      80 |
+| Karen      | Smith     |      60 |
+| Michael    | Brown     |      80 |
++------------+-----------+---------+
+
+14.
+mysql> SELECT first_name, last_name, salary FROM employee
+    -> WHERE salary NOT BETWEEN 10000 AND 15000 AND dept_id BETWEEN 30 AND 100;
++------------+-----------+---------+
+| first_name | last_name | salary  |
++------------+-----------+---------+
+| Alexander  | Hunold    | 9900.00 |
+| Bruce      | Ernst     | 6600.00 |
+| David      | Austin    | 5280.00 |
+| Valli      | Pataballa | 5280.00 |
+| Diana      | Lorentz   | 4620.00 |
+| Daniel     | Faviet    | 9900.00 |
+| John       | Chen      | 9020.00 |
+| Karen      | Smith     | 6710.00 |
++------------+-----------+---------+
+
+15.
+mysql> SELECT first_name, last_name, hire_date FROM employee
+    -> WHERE YEAR(hire_date) = 1987;
++------------+-----------+------------+
+| first_name | last_name | hire_date  |
++------------+-----------+------------+
+| Steven     | King      | 1987-06-17 |
+| Neena      | Kochhar   | 1987-06-18 |
+| Lex        | De Haan   | 1987-06-19 |
+| Alexander  | Hunold    | 1987-06-20 |
+| Bruce      | Ernst     | 1987-06-21 |
+| David      | Austin    | 1987-06-22 |
+| Valli      | Pataballa | 1987-06-23 |
+| Diana      | Lorentz   | 1987-06-24 |
+| Nancy      | Greenberg | 1987-06-25 |
+| Daniel     | Faviet    | 1987-06-26 |
+| John       | Chen      | 1987-06-27 |
+| Karen      | Smith     | 1987-06-28 |
+| Michael    | Brown     | 1987-06-29 |
++------------+-----------+------------+
+
+16.
+mysql> SELECT first_name FROM employee
+    -> WHERE first_name LIKE "%b%" AND first_name LIKE "%c%";
++------------+
+| first_name |
++------------+
+| Bruce      |
++------------+
+
+17.
+mysql> SELECT last_name, job_id, salary FROM employee
+    -> WHERE job_id IN (SELECT job_id FROM jobs WHERE job_title = "IT programming" OR job_title = "Shipping Clerk")
+    -> AND salary NOT IN (4500, 10000, 15000);
++-----------+---------+---------+
+| last_name | job_id  | salary  |
++-----------+---------+---------+
+| Hunold    | IT_PROG | 9900.00 |
+| Ernst     | IT_PROG | 6600.00 |
+| Austin    | IT_PROG | 5280.00 |
+| Pataballa | IT_PROG | 5280.00 |
+| Lorentz   | IT_PROG | 4620.00 |
+| Smith     | IT_PROG | 6710.00 |
++-----------+---------+---------+
+
+18.
+mysql> SELECT last_name FROM employee
+    -> WHERE LENGTH(last_name) = 6;
++-----------+
+| last_name |
++-----------+
+| Hunold    |
+| Austin    |
+| Faviet    |
++-----------+
+
+19.
+mysql> SELECT last_name FROM employee
+    -> WHERE last_name LIKE "___e%";
++-----------+
+| last_name |
++-----------+
+| Lorentz   |
+| Greenberg |
++-----------+
+
+20.
+mysql> SELECT DISTINCT address FROM employee;
++---------+
+| address |
++---------+
+| pune    |
+| mumbai  |
++---------+
+
+21.
+mysql> SELECT * FROM employee
+    -> WHERE last_name IN ("BLAKE","SCOTT","KING","FORD");
++--------+------------+-----------+---------------+--------------+------------+---------+----------+----------------+------------+---------+---------+
+| emp_id | first_name | last_name | email         | phone_no     | hire_date  | job_id  | salary   | commission_pct | manager_id | dept_id | address |
++--------+------------+-----------+---------------+--------------+------------+---------+----------+----------------+------------+---------+---------+
+|    100 | Steven     | King      | not available | 515.123.4567 | 1987-06-17 | AD_PRES | 26400.00 |           0.10 |        200 |      10 | pune    |
++--------+------------+-----------+---------------+--------------+------------+---------+----------+----------------+------------+---------+---------+
